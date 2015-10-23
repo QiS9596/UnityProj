@@ -2,27 +2,34 @@
 using System.Collections;
 
 public class Bullet : MonoBehaviour {
-	public GameObject Explosion;
-	public AudioClip sExplosion;
-	public Material material;
 
+	private GameController controller;
 
 	void OnTriggerEnter(Collider other){
-		Destroy (this.gameObject);
-		GameObject NewExplosion = (GameObject)Instantiate (Explosion, transform.position, Quaternion.identity);
-//		switch (other.tag) {
-//
-//		case Tags.Enemy:
-//			other.gameObject.GetComponent<Enemy>().attacked();
-//			break;
-//		case Tags.Player:
-//			other.gameObject.GetComponent<Player>().attacked();
-//			break;
-//		}
+	
+
+		switch (other.tag) {
+
+		case Tags.Enemy:
+			other.gameObject.GetComponent<Enemy>().attacked();
+			controller.exploded (gameObject.transform.position);
+			Destroy(gameObject);
+			break;
+		case Tags.Player:
+			other.gameObject.GetComponent<PlayerController>().attacked();
+			controller.exploded (gameObject.transform.position);
+			Destroy(gameObject);
+			break;
+		case Tags.Environment:
+			controller.exploded(gameObject.transform.position);
+			Destroy(gameObject);
+			break;
+		}
+
 	}
 	// Use this for initialization
 	void Start () {
-//		TagManager = new Tags();
+		controller = GameObject.FindWithTag (Tags.GameController).GetComponent<GameController> ();
 	}
 	
 	// Update is called once per frame

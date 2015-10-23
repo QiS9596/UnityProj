@@ -65,6 +65,7 @@
      <None Include="Assets\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hada.shader" />
      <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hada_blend.shader" />
+     <None Include="Assets\True Explosions\System\Shaders\SphereVolumetricExplosion.shader" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\WaterInclude.cginc" />
      <None Include="Assets\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />

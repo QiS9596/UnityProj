@@ -5,13 +5,13 @@ public class Bullet : MonoBehaviour {
 
 	private GameController controller;
 
-	void OnTriggerEnter(Collider other){
+	void OnCollisionEnter(Collision other){
 	
 
-		switch (other.tag) {
+		switch (other.collider.tag) {
 
 		case Tags.Enemy:
-			other.gameObject.GetComponent<Enemy>().attacked();
+			other.gameObject.GetComponent<EnemyTankObject>().attacked();
 			controller.exploded (gameObject.transform.position);
 			Destroy(gameObject);
 			break;

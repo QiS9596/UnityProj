@@ -2,11 +2,15 @@
 using System.Collections;
 
 public class Enemy : MonoBehaviour {
-	private float healthPoint;
+	private float healthPoint = 50.0f;
 	public GameObject bullet;
-	private Vector3 aim;
-	private bool noticing;
+	public Vector3 aim;
+	public bool noticing;
 	private RaycastHit hit;
+	public GameObject children;
+	public GameObject emitter;
+	public float cooldown = 4.0f;
+	private float cooldownCount = 0.0f;
 	// Use this for initialization
 	void Start () {
 		noticing = false;
@@ -14,17 +18,24 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Physics.Raycast (transform.position, aim, out hit, 50.0f)) {
-			if(hit.collider.gameObject.tag == Tags.Player)
-			transform.rotation = Quaternion.Lerp (transform.rotation, hit.transform.rotation, Time.deltaTime);
+		if (noticing) {
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(aim - transform.position), 1.0f * Time.deltaTime);
+			if(Physics.Raycast(transform.position, transform.forward, out hit, 40.0f)){
+				if(hit.collider.tag == Tags.Player){
+					Debug.Log ("Successfully found player");
+					if(cooldownCount >= cooldown){
+						Debug.Log ("Ready to fire");
+						GameObject newBullet = (GameObject)Instantiate(bullet);
+						newBullet.transform.position = transform.position + transform.up*1 + transform.forward * 2;
+						newBullet.GetComponent<autoBullet>().orientation = transform.forward;
+						cooldownCount = 0.0f;
+					}
+				}
+			}
+			cooldownCount += Time.deltaTime;
 		}
 	}
-	void OnTriggerStay(Collider other){
-		if (other.tag == Tags.Player) {
-			aim = other.transform.position;
-			noticing = true;
-		}
-	}
+
 	public void attacked(){
 
 	}

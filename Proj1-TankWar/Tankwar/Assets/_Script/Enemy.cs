@@ -10,9 +10,11 @@ public class Enemy : MonoBehaviour {
 	public GameObject children;
 	public GameObject emitter;
 	public float cooldown = 4.0f;
+	public GameController controller;
 	private float cooldownCount = 0.0f;
 	// Use this for initialization
 	void Start () {
+		controller = GameObject.FindGameObjectWithTag (Tags.GameController).GetComponent<GameController>();
 		noticing = false;
 	}
 	
@@ -20,23 +22,21 @@ public class Enemy : MonoBehaviour {
 	void Update () {
 		if (noticing) {
 			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(aim - transform.position), 1.0f * Time.deltaTime);
-			if(Physics.Raycast(transform.position, transform.forward, out hit, 40.0f)){
-				if(hit.collider.tag == Tags.Player){
-					Debug.Log ("Successfully found player");
+
 					if(cooldownCount >= cooldown){
 						Debug.Log ("Ready to fire");
 						GameObject newBullet = (GameObject)Instantiate(bullet);
-						newBullet.transform.position = transform.position + transform.up*1 + transform.forward * 2;
+						newBullet.transform.position = transform.position + transform.up*4 +transform.forward *6;
 						newBullet.GetComponent<autoBullet>().orientation = transform.forward;
 						cooldownCount = 0.0f;
 					}
-				}
-			}
+
 			cooldownCount += Time.deltaTime;
 		}
 	}
 
 	public void attacked(){
-
+		controller.tankExploded (transform.position);
+		Destroy (gameObject);
 	}
 }

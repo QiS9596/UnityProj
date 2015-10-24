@@ -65,6 +65,9 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+	public void moveForward(){
+		gameObject.transform.Translate(gameObject.transform.forward*Time.deltaTime*5, Space.World);
+	}
 	void ButtonDebugTest(){
 		if (Input.GetButton ("Fire1")) {
 			Debug.Log("Fire1");

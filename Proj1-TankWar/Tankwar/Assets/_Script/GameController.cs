@@ -17,4 +17,7 @@ public class GameController : MonoBehaviour {
 	public void exploded(Vector3 otherPosition){
 		Instantiate (explosion, otherPosition, Quaternion.identity);
 	}
+	public void tankExploded(Vector3 otherPosition){
+		Instantiate (tankExplode, otherPosition, Quaternion.identity);
+	}
 }

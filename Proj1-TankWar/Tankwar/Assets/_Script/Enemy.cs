@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Enemy : MonoBehaviour {
-	private float healthPoint = 50.0f;
+
 	public GameObject bullet;
 	public Vector3 aim;
 	public bool noticing;

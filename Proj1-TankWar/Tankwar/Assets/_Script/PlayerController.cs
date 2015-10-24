@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEditor;
 public class PlayerController : MonoBehaviour {
 	public float rotateSpeed = 1.0f;
 	public float refuelTime = 3.0f;
@@ -24,10 +24,10 @@ public class PlayerController : MonoBehaviour {
 		/*moving forward and backward*/
 		gameObject.GetComponent<Rigidbody> ().AddForce (new Vector3(0,-10,0));
 		if (Input.GetKey (KeyCode.UpArrow) ) {
-			gameObject.transform.Translate(gameObject.transform.forward*Time.deltaTime*5, Space.World);
+			moveForward();
 		}
 		if (Input.GetKey (KeyCode.DownArrow)) {
-			gameObject.transform.Translate(gameObject.transform.forward*Time.deltaTime*-5, Space.World);
+			moveBackward();
 		}
 		/*rotate the whole tank*/
 		float h = Input.GetAxis ("Horizontal");
@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		if ( Input.GetButton("Submit") )
 		{
-			if( anglenow > 0 )
+			if( anglenow > -10 )
 			{
 				emitter.transform.Rotate(new Vector3(0,-1,0), 1);
 				anglenow--;
@@ -63,24 +63,26 @@ public class PlayerController : MonoBehaviour {
 		}
 		timer += Time.deltaTime;
 
+
+		checkHealth ();
 	}
 
 	public void moveForward(){
 		gameObject.transform.Translate(gameObject.transform.forward*Time.deltaTime*5, Space.World);
+
 	}
-	void ButtonDebugTest(){
-		if (Input.GetButton ("Fire1")) {
-			Debug.Log("Fire1");
+
+	public void moveBackward(){
+		gameObject.transform.Translate(gameObject.transform.forward*Time.deltaTime*-5, Space.World);
+	}
+
+	void checkHealth(){
+		if (healthPoint <= 0.0f) {
+			Destroy (gameObject);
+			controller.tankExploded(transform.position);
 		}
-		if (Input.GetButton ("Fire2"))
-			Debug.Log ("Fire2");
-		if (Input.GetButton ("Fire3"))
-			Debug.Log ("Fire3");
-		if (Input.GetButton ("Jump"))
-			Debug.Log ("Jump");
-		if (Input.GetButton ("Submit"))
-			Debug.Log ("Submit");
 	}
+
 	public void attacked(){
 		healthPoint -= 10;
 	}
